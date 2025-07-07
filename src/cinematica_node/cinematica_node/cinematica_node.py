@@ -73,7 +73,11 @@ class CinematicaNode(Node):
             response.positions = []
             return response
 
-        index = request.index % self.max  # Asegura que el índice está en el rango
+        if request.index < 3*self.max:
+            index = request.index % self.max
+        else:
+            index = self.max - 1  # Última configuración
+
         
         self.get_logger().info(f'Enviando posición {index}')
         response.positions = self.q[:, index].flatten().tolist()
