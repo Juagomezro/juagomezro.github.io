@@ -16,6 +16,7 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/Calcular.action"
   "action/Posicionar.action"
+  "action/EnviarPaso.action"
   "srv/Activar.srv"
   "srv/SiguientePosicion.srv"
 )
