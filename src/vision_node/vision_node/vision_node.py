@@ -1,58 +1,32 @@
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Image
-from vision_node.msg import MapaDatos
-from cv_bridge import CvBridge
-import numpy as np
-import cv2
+from example_interfaces.srv import Trigger
 
 class VisionNode(Node):
     def __init__(self):
         super().__init__('vision_node')
 
-        # Dirección IP de la cámara (RTSP o MJPEG o HTTP stream)
-        self.cam_url = 'http://<IP>:<PUERTO>/video'  # Reemplaza esto con la URL real
-        self.cap = cv2.VideoCapture(self.cam_url)
+        # Servicios estándar tipo Trigger
+        self.create_service(Trigger, 'get_pose', self.get_pose_callback)
+        self.create_service(Trigger, 'get_objetivo', self.get_objetivo_callback)
 
-        if not self.cap.isOpened():
-            self.get_logger().error("No se pudo abrir la cámara IP")
-            return
-
-        self.bridge = CvBridge()
-
-        # Publicadores
-        self.data_pub = self.create_publisher(MapaDatos, 'mapa_datos', 10)
-        self.img_pub = self.create_publisher(Image, 'imagen_debug', 10)
-
-        self.timer = self.create_timer(1.0, self.timer_callback)  # cada 1s
+        self.timer = self.create_timer(1.0, self.timer_callback)  # Cada 1s
 
     def timer_callback(self):
-        ret, frame = self.cap.read()
+        # Publicación simulada, sin topic
+        self.get_logger().info("Simulando procesamiento de visión...")
 
-        if not ret:
-            self.get_logger().warn("No se pudo leer imagen de la cámara.")
-            return
+    def get_pose_callback(self, request, response):
+        response.success = True
+        response.message = "1.0,3.0,30.0"  # x, y, theta
+        self.get_logger().info("Respondido get_pose con datos simulados")
+        return response
 
-        # Procesamiento de imagen aquí
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Simulamos datos (reemplaza esto con tu lógica real)
-        matriz = np.identity(3)
-        vector = np.array([1.0, 2.0, 3.0])
-        pose = np.array([0.5, 1.0, 0.2])
-
-        # Publicar mensaje personalizado
-        msg = MapaDatos()
-        msg.matriz = matriz.flatten().tolist()
-        msg.vector = vector.tolist()
-        msg.pose = pose.tolist()
-        self.data_pub.publish(msg)
-
-        # Publicar imagen para debug (opcional)
-        img_msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
-        self.img_pub.publish(img_msg)
-
-        self.get_logger().info("Publicado MapaDatos y frame")
+    def get_objetivo_callback(self, request, response):
+        response.success = True
+        response.message = "-5.0,-2.0"  # x_obj, y_obj
+        self.get_logger().info("Respondido get_objetivo con datos simulados")
+        return response
 
 def main(args=None):
     rclpy.init(args=args)
@@ -62,6 +36,5 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        node.cap.release()
         node.destroy_node()
         rclpy.shutdown()
