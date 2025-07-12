@@ -19,6 +19,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/EnviarPaso.action"
   "srv/Activar.srv"
   "srv/SiguientePosicion.srv"
+  "srv/CapturarImagen.srv"
 )
 
 if(BUILD_TESTING)
