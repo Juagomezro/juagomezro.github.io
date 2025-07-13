@@ -73,7 +73,7 @@ class CinematicaNode(Node):
             response.positions = []
             return response
 
-        if request.index < 1*self.max:
+        if request.index < 2*self.max:
             index = request.index % self.max
         else:
             index = self.max - 1  # Última configuración
