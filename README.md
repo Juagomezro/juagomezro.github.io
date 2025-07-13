@@ -14,6 +14,20 @@
 
 Para mayor información del **_Hexapodo_** desarrollado por [Felipe Chaves Delgadillo](mailto:fchaves@unal.edu.co) y [Andres Camilo Torres Cajamarca](mailto:antorresca@unal.edu.co) consultar el [repositorio](https://github.com/labsir-un/Hexapod_Unal) de la organización [LabSir](https://github.com/labsir-un) de la Universidad Nacional de Colombia 
 
+## Desarrollo Hexapodo v2.0
+Basados en la versión 1.0, se inicia el proceso de desarrollo de la versión 2.0, iniciando con algunas modificaciones en cuanto a Hardware enfocadas en mejorar el andar del robot.
+
+    ## Hardware
+    1. Se cambian las tarjetas de control del los mototes por un Hub que hace puente en las conexiones y evita que se limite la corriente que se entrega a los motores. A continuación se presenta la imagen                correspondiente a la nueva configuración de las conexiones de los motores.
+    
+    2. Se realiza la impresión de una carcaza que cubre los circuitoe y elementos que controlan el robot, además, peromite la ubicacióin de un indicador para el sistema de visón que indicará la orientación del         robot. A continuación se muestra una imagen de la carcaza impresa.
+    
+    3. Se realiza el desarrollo de un griper, el cuál se va a encargar de sujetar la lata que se va a seleccionar de acuerdo a su color, para el desarrollo de este gripper se tomó como base la tería de gripper           flexible o adaptable a la superficie a sujetar (Soft-Gripping). Este griper diseñado se imprime en PLA y es actuado por un servomotor, el cual se ubica en la parte frontal del robot para de esta manera            hacer la sujeción de los elementos a clasificar. A contunuación el gripper y su acople al cahsis del robot hexapodo.
+
+    ## Software
+    1. En cuanto a la progración, se cambia la forma en que se envía la información a los motores, esto con el fin de reducil el volumen de datos enviados por el canal TTL, ya que se evidenció la saturación del buffer debido a la cantidad de información enviada, teniendo en cuenta que son 18 motores y a cada uno se le envía información por el mísmo canal.
+
+
 ## 🎮 Control
 
 Para el algoritmo de control, se tuvo en cuenta que el robot emplea rutinas predefinidas que por simplicidad no se modificaran para evitar rehacer la cinematica; por ello se realizó un control como una _maquina de estados discreta_, para ello se siguió el siguiente diagrama de flujo:
